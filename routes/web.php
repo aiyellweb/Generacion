@@ -33,6 +33,8 @@ $user->save();
 });
 
 
+Route::get('logout','Auth\LoginController@logout');
+
 ////////////////RUTAS DE TIPO RES/////////////////
 Route::resource('planeacion','PlaneacionController');
 

@@ -54,8 +54,7 @@ class PlaneacionController extends Controller
             $r1=Storage::disk('op')->put($nombre_original,  \File::get($file) ); // donde guardo el archivo 
             
 
-
-            $data = Excel::load($path, function($reader) {
+            $data = Excel::load($path, function($reader) { 
             })->get();   
 
             $mytime = Carbon::now('America/bogota');
