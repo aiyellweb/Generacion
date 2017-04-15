@@ -167,6 +167,13 @@ return [
          * Package Service Providers...
          */
 
+            // mis provider
+
+        'Maatwebsite\Excel\ExcelServiceProvider',
+        Collective\Html\HtmlServiceProvider::class,
+
+
+
         //
 
         /*
@@ -225,7 +232,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+           // mis alises 
+        'Excel' => 'Maatwebsite\Excel\Facades\Excel', 
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];

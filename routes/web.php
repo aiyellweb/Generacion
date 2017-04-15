@@ -31,3 +31,23 @@ $user->save();
 
 
 });
+
+
+////////////////RUTAS DE TIPO RES/////////////////
+Route::resource('planeacion','PlaneacionController');
+
+
+
+
+///////////////////FIN DE RUTAS RES///////////////////
+
+
+////////////////////////RUTAS DE POST/////////////////
+
+Route::post('carga-OP','PlaneacionController@cargaMaxiva');
+
+
+/////////////////////////FIN DE RUTAS TIPO POS/////////////////////////////////
+
+
+

@@ -94,11 +94,11 @@
             <li id="liAlmacen" class="treeview">
               <a href="#">
                 <i class="fa fa-laptop"></i>
-                <span>Almacén</span>
+                <span>Planeacion</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li id="liArticulos"><a href=""><i class="fa fa-circle-o"></i> Artículos</a></li>
+                <li id="liArticulos"><a href="{{Route('planeacion.create')}}"><i class="fa fa-circle-o"></i>O.P</a></li>
                 <li id="liCategorias"><a href=""><i class="fa fa-circle-o"></i> Categorías</a></li>
               </ul>
             </li>
@@ -106,46 +106,46 @@
             <li id="liCompras" class="treeview">
               <a href="#">
                 <i class="fa fa-th"></i>
-                <span>Compras</span>
+                <span>por definir</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li id="liIngresos"><a href=""><i class="fa fa-circle-o"></i> Ingresos</a></li>
-                <li id="liProveedores"><a href=""><i class="fa fa-circle-o"></i> Proveedores</a></li>
+                <li id="liIngresos"><a href=""><i class="fa fa-circle-o"></i> x</a></li>
+                <li id="liProveedores"><a href=""><i class="fa fa-circle-o"></i>x</a></li>
               </ul>
             </li>
             <li id="liVentas" class="treeview">
               <a href="#">
                 <i class="fa fa-shopping-cart"></i>
-                <span>Ventas</span>
+                <span>por de finir</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li id="liVentass"><a href=""><i class="fa fa-circle-o"></i> Ventas</a></li>
-                <li id="liClientes"><a href=""><i class="fa fa-circle-o"></i> Clientes</a></li>
+                <li id="liVentass"><a href=""><i class="fa fa-circle-o"></i> x</a></li>
+                <li id="liClientes"><a href=""><i class="fa fa-circle-o"></i> x</a></li>
               </ul>
             </li>
                        
             <li id="liAcceso" class="treeview">
               <a href="#">
-                <i class="fa fa-folder"></i> <span>Acceso</span>
+                <i class="fa fa-folder"></i> <span>por de finir</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li id="liUsuarios"><a href=""><i class="fa fa-circle-o"></i> Usuarios</a></li>
+                <li id="liUsuarios"><a href=""><i class="fa fa-circle-o"></i> x</a></li>
                 
               </ul>
             </li>
              <li>
               <a href="https://www.youtube.com/watch?v=Zj0pshSSlEo&list=PLZPrWDz1MolrxS1uw-u7PrnK66DCFmhDR" target="_blank">
-                <i class="fa fa-plus-square"></i> <span>Ayuda</span>
-                <small class="label pull-right bg-red">PDF</small>
+                <i class="fa fa-plus-square"></i> <span>por de finir</span>
+                <small class="label pull-right bg-red">por de finir</small>
               </a>
             </li>
             <li>
               <a href="">
                 <i class="fa fa-info-circle"></i> <span>Acerca De...</span>
-                <small class="label pull-right bg-yellow">IT</small>
+                <small class="label pull-right bg-yellow">Andres mauricio</small>
               </a>
             </li>
                         
