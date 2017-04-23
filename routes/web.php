@@ -48,6 +48,18 @@ Route::resource('planeacion','PlaneacionController');
 
 Route::post('carga-OP','PlaneacionController@cargaMaxiva');
 
+Route::post('proceso/{id}',[
+	'uses'=>'PlaneacionController@proceso',
+	'as'=>'proceso'
+]);
+
+
+Route::get('api/planeacion',function(){
+
+return Datatables::eloquent(App\Planeacion::query())->make(true);
+
+});
+
 
 /////////////////////////FIN DE RUTAS TIPO POS/////////////////////////////////
 
