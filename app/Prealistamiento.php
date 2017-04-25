@@ -23,12 +23,31 @@ class Prealistamiento extends Model
 
 
 	public function planeacionSalida($id){
+   
 
-		$planeacion= Planeacion::find($id)->first();
-		$mytime1 = Carbon::now('America/bogota');      
+   $varids= $arrayids[]= ['id'=>$id];
+  
+	foreach ($varids as $key => $id) {
+		 //dd($id);	
+		
+		$mytime1 = Carbon::now('America/bogota');
+		$planeacion=  Planeacion::whereIn('id',$id)->update(['salida_prealistamiento'=>$mytime1,
+			'user_id'=>auth()->user()->id
+
+			]);
+
+		
+
+
+			/*     
          $planeacion->updated_at=$mytime1;
          $planeacion->user_id= Auth::user()->id;
-         $planeacion->update();				
+         $planeacion->update();*/		
+					
+		}			
+
+
+					
 
 
 	}

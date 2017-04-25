@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Collection;
 use Storage;
 
 use App\Planeacion;
@@ -55,7 +56,7 @@ class PlaneacionController extends Controller
 
     public function store(Request $request)
     {
-              
+        
 
 
      if(Input::hasFile('archivo')){
@@ -96,26 +97,104 @@ class PlaneacionController extends Controller
 
            try{
                DB::beginTransaction();
-                $planeacion_id= $request->op_id; 
+                 $guardar_id = $request->guard_id;
+                 $varids= $arrayids[]= ['id'=>$guardar_id];
+                 $estadoPlaneacion= "salidaPre";
+
+  
+                 foreach ($varids as $key => $id) {
+         //dd($id); 
+            $mytime1 = Carbon::now('America/bogota');
+            $planeacion=  Planeacion::whereIn('id',$id)->update(['salida_prealistamiento'=>$mytime1,
+            'estado'=>$estadoPlaneacion,    
+            'user_id'=>auth()->user()->id
+
+            ]);
+
+              
+              //$varidcantidad= $arrayids[]= ['id'=>$ids_cantidad]; 
+              /*
+               foreach ($varidcantidad as $key => $id) {
+                    $cantidad=  Planeacion::select('cantidad_pares')->whereIn('id',$id)->get();
+                    dd($cantidad);                  
+                }*/            
+
+                
+
+                
+
+                ///prealistamiento
+                          
+                
+                 //$mytime = Carbon::now('America/bogota');
+                
+               
+
+                 //$planeacion_id= $request->op_id;
+
+                   /* 
+                 foreach ($planeacion_id as $id) {
+                     # code...
+                        $mytime = Carbon::now('America/bogota');
+                        $ids_cantidad = $request->guard_id;
+                        if(in_array($id,$ids_cantidad)){
+                            $cantidad =  Planeacion::select('cantidad_pares')->where('id',$id)->get();
+                            $prealistamiento = new Prealistamiento();
+
+                            foreach ($cantidad as $key) {
+                                $prealistamiento->op=$id;
+                                
+                                $prealistamiento->cantidad= $key->cantidad_pares;
+
+                                $prealistamiento->fecha_ingreso=$mytime;
+                                $prealistamiento->estado="IN";
+                                $prealistamiento->save();
+                            }
+                        }
+                 }*/
+
 
                  
-                
-                 $mytime = Carbon::now('America/bogota');
-                
-
+                 $planeacion_id= $request->op_id;
                  foreach ($planeacion_id as $key => $id) {
-
+                    //dd($id);
+                       $mytime = Carbon::now('America/bogota');
+                       $ids_cantidad = $request->guard_id;
+                       $cantidad=  Planeacion::select('cantidad_pares')->where('id',$id)->get();
+                        //dd($cantidad);        
+                    
                     $prealistamiento = new Prealistamiento();
-                    $prealistamiento->op=$id;
-                    $prealistamiento->fecha_ingreso=$mytime;
-                    $prealistamiento->estado="IN";
-                    $prealistamiento->save();
-                }
+                    foreach ($cantidad as $key) {
+                        $prealistamiento->op=$id;
+                        
+                        $prealistamiento->cantidad= $key->cantidad_pares;
 
-                $guardar_id = $request->guard_id;    
-                $prealisModifi = new Prealistamiento();
-                $prealisModifi->planeacionSalida($guardar_id);
+                        $prealistamiento->fecha_ingreso=$mytime;
+                        $prealistamiento->estado="IN";
+                        $prealistamiento->save();
+                    }
+                }
                 
+
+
+
+
+                ///fin prealistamientos
+                $guardar_id = $request->guard_id; 
+                /*   
+                $prealisModifi = new Prealistamiento();
+                $prealisModifi->planeacionSalida($guardar_id);*/
+
+              
+
+
+              
+
+                    
+
+
+
+        }
 
                  
                 

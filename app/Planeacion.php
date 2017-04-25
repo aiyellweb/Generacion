@@ -11,7 +11,8 @@ class Planeacion extends Model
     public $timestamps=false;
 
     protected $fillable=['numero_op','referencia','cuero_color',
-    'suelo_color','tallas','cantidad_tallas_producir','cantidad_pares','cliente_nombre','user_id','estado'
+    'suelo_color','tallas','cantidad_tallas_producir','cantidad_pares','cliente_nombre','user_id','estado',
+    'salida_prealistamiento','prealistamiento_id'
 
     ];
 
