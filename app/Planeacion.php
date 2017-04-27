@@ -21,4 +21,9 @@ class Planeacion extends Model
    		return $this->hasMany('App\Prealistamiento');
    } 	
 
+   public function PrecosturaPre(){
+
+       return $this->hasMany('App\Precostura');
+   }
+
 }

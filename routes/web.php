@@ -54,6 +54,11 @@ Route::post('proceso/{id}',[
 ]);
 
 
+Route::post('planeacionInforme',[
+		'uses'=>'PlaneacionController@informe',
+		'as'=>'informe.consulta'
+	]);
+
 Route::get('api/planeacion',function(){
 
 return Datatables::eloquent(App\Planeacion::query())->make(true);

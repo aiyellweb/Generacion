@@ -76,6 +76,14 @@
                         </label>
                         </div>
 
+                       <div class="container-fluid">    
+                        <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" name="precostura[]" value="{{$key->id}}">
+                        <span class="custom-control-indicator" ></span>
+                        <span class="custom-control-description">Precostura</span>
+                        </label>
+                        </div>                      
+
                     </td>
 
                     <td>

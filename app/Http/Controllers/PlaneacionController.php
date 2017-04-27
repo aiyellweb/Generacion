@@ -9,11 +9,14 @@ use Storage;
 
 use App\Planeacion;
 use App\Prealistamiento;
-use Excel;
+use App\Precostura;
+
 
 use DB;
 use Carbon\Carbon;
 use Auth;
+use Maatwebsite\Excel\Facades\Excel;
+
 class PlaneacionController extends Controller
 {
     /**
@@ -23,7 +26,7 @@ class PlaneacionController extends Controller
      */
     public function index()
     {
-        //
+        return view('planeacion.index');
     }
 
     /**
@@ -56,8 +59,14 @@ class PlaneacionController extends Controller
 
     public function store(Request $request)
     {
-        
 
+        //de claraion de input
+
+         $inputOp_id = $request->input('op_id');
+         $inputPrecostura = $request->input('precostura');
+         $inputGuard_id= $request->input('guard_id');
+
+       
 
      if(Input::hasFile('archivo')){
 
@@ -93,76 +102,35 @@ class PlaneacionController extends Controller
              return back()->with('info','cargado Exitosamente');
             }
 
-        }else{
+        }if($inputOp_id==true) {
+            $this->validate($request,[
+                    'guard_id'=>'required'
+
+                ]);
 
            try{
                DB::beginTransaction();
                  $guardar_id = $request->guard_id;
                  $varids= $arrayids[]= ['id'=>$guardar_id];
                  $estadoPlaneacion= "salidaPre";
-
-  
+ 
                  foreach ($varids as $key => $id) {
          //dd($id); 
             $mytime1 = Carbon::now('America/bogota');
-            $planeacion=  Planeacion::whereIn('id',$id)->update(['salida_prealistamiento'=>$mytime1,
+
+            $planeacion=  Planeacion::whereIn('id',$id)->update(['salida_prealistamiento'=>$mytime1->toDateTimeString(),
             'estado'=>$estadoPlaneacion,    
             'user_id'=>auth()->user()->id
 
             ]);
-
-              
-              //$varidcantidad= $arrayids[]= ['id'=>$ids_cantidad]; 
-              /*
-               foreach ($varidcantidad as $key => $id) {
-                    $cantidad=  Planeacion::select('cantidad_pares')->whereIn('id',$id)->get();
-                    dd($cantidad);                  
-                }*/            
-
-                
-
-                
-
-                ///prealistamiento
-                          
-                
-                 //$mytime = Carbon::now('America/bogota');
-                
                
-
-                 //$planeacion_id= $request->op_id;
-
-                   /* 
-                 foreach ($planeacion_id as $id) {
-                     # code...
-                        $mytime = Carbon::now('America/bogota');
-                        $ids_cantidad = $request->guard_id;
-                        if(in_array($id,$ids_cantidad)){
-                            $cantidad =  Planeacion::select('cantidad_pares')->where('id',$id)->get();
-                            $prealistamiento = new Prealistamiento();
-
-                            foreach ($cantidad as $key) {
-                                $prealistamiento->op=$id;
-                                
-                                $prealistamiento->cantidad= $key->cantidad_pares;
-
-                                $prealistamiento->fecha_ingreso=$mytime;
-                                $prealistamiento->estado="IN";
-                                $prealistamiento->save();
-                            }
-                        }
-                 }*/
-
-
-                 
                  $planeacion_id= $request->op_id;
                  foreach ($planeacion_id as $key => $id) {
                     //dd($id);
                        $mytime = Carbon::now('America/bogota');
                        $ids_cantidad = $request->guard_id;
                        $cantidad=  Planeacion::select('cantidad_pares')->where('id',$id)->get();
-                        //dd($cantidad);        
-                    
+                        //dd($cantidad);                            
                     $prealistamiento = new Prealistamiento();
                     foreach ($cantidad as $key) {
                         $prealistamiento->op=$id;
@@ -174,31 +142,10 @@ class PlaneacionController extends Controller
                         $prealistamiento->save();
                     }
                 }
+
+        }            
                 
-
-
-
-
-                ///fin prealistamientos
-                $guardar_id = $request->guard_id; 
-                /*   
-                $prealisModifi = new Prealistamiento();
-                $prealisModifi->planeacionSalida($guardar_id);*/
-
-              
-
-
-              
-
-                    
-
-
-
-        }
-
-                 
-                
-                DB::commit();
+         DB::commit();
 
         }
 
@@ -208,10 +155,68 @@ class PlaneacionController extends Controller
             DB::rollback();
         }
 
+     return back();
+    } 
+    /// PRECOSTURA
+    if ($inputPrecostura==true) {
 
+         $this->validate($request,[
+                    'guard_id'=>'required'
+
+                ]);
+
+         try{
+               DB::beginTransaction();
+                 $guardar_id = $request->guard_id;
+                 $varids= $arrayids[]= ['id'=>$guardar_id];
+                 $estadoPlaneacion= "Precostura";
+ 
+                 foreach ($varids as $key => $id) {
+         //dd($id); 
+            $mytime1 = Carbon::now('America/bogota');
+            $planeacion=  Planeacion::whereIn('id',$id)->update(['salida_prealistamiento'=>$mytime1->toDateTimeString(),
+            'estado'=>$estadoPlaneacion,    
+            'user_id'=>auth()->user()->id
+
+            ]);
+               
+                 $planeacion_id= $request->precostura;
+                 foreach ($planeacion_id as $key => $id) {
+                    //dd($id);
+                       $mytime = Carbon::now('America/bogota');
+                       $ids_cantidad = $request->guard_id;
+                       $cantidad=  Planeacion::select('cantidad_pares')->where('id',$id)->get();
+                        //dd($cantidad);                            
+                    $prealistamiento = new Precostura();
+                    foreach ($cantidad as $key) {
+                        $prealistamiento->op_id=$id;
+                        
+                        $prealistamiento->cantidad= $key->cantidad_pares;
+
+                        $prealistamiento->fecha_entrada=$mytime;
+                        $prealistamiento->estado="IN";
+                        $prealistamiento->save();
+                    }
+                }
+
+        }            
+                
+         DB::commit();
+
+        }
+
+        catch(\Exception $e)
+        {
+            dd($e);
+            DB::rollback();
+        }
 
      return back();
     } 
+
+
+
+    
 
         
 
@@ -229,6 +234,71 @@ class PlaneacionController extends Controller
     public function show($id)
     {
         //
+    }
+
+
+
+
+    public function informe(Request $request){
+         
+        $estadoProceso= $request->input('estado');
+        //dd($estadoProceso);
+                
+               if($estadoProceso=='salidaPre'){ 
+              Excel::create('Laravel Excel', function($excel) {
+ 
+            $excel->sheet('Productos', function($sheet) {
+                  
+
+               $planeacionEstado= DB::select(" 
+                        SELECT  DATEDIFF(pre.fecha_ingreso,pla.salida_prealistamiento) as diasPasados, pla.numero_op
+                            from planeacion as pla
+                                inner JOIN prealistamientos as pre
+                                 on pre.id=pla.id
+                                 where pla.estado='salidaPre'                
+            
+
+                ");
+
+               //dd($planeacionEstado);
+
+                /*
+                $planeacionEstado=DB::table('planeacion as pla')
+                                ->join('prealistamientos as pre','pre.id','=','pla.id')
+                                ->select(DB::raw("DATEDIFF(pre.fecha_ingreso,pla.salida_prealistamiento) AS dias"))
+                                ->select('pla.numero_op')
+                                ->where('pla.estado',$estadoProceso)
+                                ->get();*/
+
+
+
+
+
+                              
+               
+               foreach ($planeacionEstado as $key) {
+                   
+                 
+               $data[]=array(
+
+                    'numero-op'=>$key->numero_op,
+                    'diasPasados'=>$key->diasPasados,
+                    
+
+                );
+
+               }
+
+
+                $sheet->fromArray($data);
+ 
+            });
+        })->export('xls'); 
+
+        } 
+
+        return "malo";   
+
     }
 
     /**
