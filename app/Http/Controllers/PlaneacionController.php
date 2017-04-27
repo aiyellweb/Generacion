@@ -241,17 +241,19 @@ class PlaneacionController extends Controller
 
     public function informe(Request $request){
          
-        $estadoProceso= $request->input('estado');
+        //$request->input('estado');
         //dd($estadoProceso);
                 
-               if($estadoProceso=='salidaPre'){ 
+               if($request->input('estado')=='Precostura'){ 
               Excel::create('Laravel Excel', function($excel) {
  
             $excel->sheet('Productos', function($sheet) {
                   
 
                $planeacionEstado= DB::select(" 
-                        SELECT  DATEDIFF(pre.fecha_ingreso,pla.salida_prealistamiento) as diasPasados, pla.numero_op
+                      SELECT  DATEDIFF(pre.fecha_ingreso,pla.salida_prealistamiento)as diasPasados,DATEDIFF(pre.fecha_ingreso,now()) as DiasActuales,
+                         pla.numero_op,pla.salida_prealistamiento as salida_op,
+                         pre.fecha_ingreso as ingresoproceso
                             from planeacion as pla
                                 inner JOIN prealistamientos as pre
                                  on pre.id=pla.id
@@ -259,30 +261,17 @@ class PlaneacionController extends Controller
             
 
                 ");
-
-               //dd($planeacionEstado);
-
-                /*
-                $planeacionEstado=DB::table('planeacion as pla')
-                                ->join('prealistamientos as pre','pre.id','=','pla.id')
-                                ->select(DB::raw("DATEDIFF(pre.fecha_ingreso,pla.salida_prealistamiento) AS dias"))
-                                ->select('pla.numero_op')
-                                ->where('pla.estado',$estadoProceso)
-                                ->get();*/
-
-
-
-
-
-                              
-               
+                                   
                foreach ($planeacionEstado as $key) {
                    
                  
                $data[]=array(
 
                     'numero-op'=>$key->numero_op,
-                    'diasPasados'=>$key->diasPasados,
+                    'DiasTrascuridoEnviado'=>$key->diasPasados,
+                    'Fechaingreso'=>$key->ingresoproceso,
+                    'DiasActualesEnProceso'=>$key->DiasActuales,
+                    'fechaSalidaPlaneacion'=>$key->salida_op
                     
 
                 );
@@ -295,9 +284,12 @@ class PlaneacionController extends Controller
             });
         })->export('xls'); 
 
-        } 
+        }else{
+            return "malo";
+        }
 
-        return "malo";   
+
+           
 
     }
 
