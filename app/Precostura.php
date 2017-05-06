@@ -11,7 +11,7 @@ class Precostura extends Model
     protected $primaryKey='id';
     public $timestamps=false;
 
-    protected $fillable=['op_id','cantidad','estado','fecha_entrada','fecha_salida'];
+    protected $fillable=['op_id','cantidad','estado','fecha_entrada','fecha_salida','fecha_modificacion'];
 
 
     public function planeacionPre(){

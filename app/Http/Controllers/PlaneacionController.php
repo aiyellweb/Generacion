@@ -39,7 +39,7 @@ class PlaneacionController extends Controller
 
 
          $estado='IN';   
-        $planeacion = Planeacion::where('estado',$estado)->get();
+        $planeacion = Planeacion::all();
         $Prealistamiento= Prealistamiento::all();
         return  view('planeacion.create',compact('planeacion','Prealistamiento'));
     }
@@ -167,10 +167,13 @@ class PlaneacionController extends Controller
 
          try{
                DB::beginTransaction();
+
+               // declarion de variables
                  $guardar_id = $request->guard_id;
                  $varids= $arrayids[]= ['id'=>$guardar_id];
                  $estadoPlaneacion= "Precostura";
  
+        // modificaion
                  foreach ($varids as $key => $id) {
          //dd($id); 
             $mytime1 = Carbon::now('America/bogota');
@@ -180,6 +183,7 @@ class PlaneacionController extends Controller
 
             ]);
                
+               //guardar datos
                  $planeacion_id= $request->precostura;
                  foreach ($planeacion_id as $key => $id) {
                     //dd($id);
@@ -198,6 +202,24 @@ class PlaneacionController extends Controller
                         $prealistamiento->save();
                     }
                 }
+
+                // modificacion   
+             $mytime1 = Carbon::now('America/bogota');
+             $estado='finalizada';
+             $cantidad=0;
+            $modi_id = $request->guard_id;
+            $varids= $arrayids[]= ['id'=>$modi_id];
+
+             foreach($varids as $key => $id) {
+            $planeacion=  Prealistamiento::whereIn('op',$id)->update(['fecha_modificacion'=>$mytime1->toDateTimeString(),
+            'cantidad'=>$cantidad,    
+            'estado'=>$estadoPlaneacion   
+            
+
+            ]);
+
+        }
+             
 
         }            
                 
@@ -251,32 +273,122 @@ class PlaneacionController extends Controller
                   
 
                $planeacionEstado= DB::select(" 
-                      SELECT  DATEDIFF(pre.fecha_ingreso,pla.salida_prealistamiento)as diasPasados,DATEDIFF(pre.fecha_ingreso,now()) as DiasActuales,
-                         pla.numero_op,pla.salida_prealistamiento as salida_op,
-                         pre.fecha_ingreso as ingresoproceso
+               SELECT  DATEDIFF(now(),pre.fecha_entrada)as diasPasados,DATEDIFF(now(),pla.created_at) as DiasActuales,
+                         pla.numero_op,pla.referencia,pla.cantidad_pares,now() as fecha_actual,pla.salida_prealistamiento as salida_op,
+                         pre.fecha_entrada as ingresoproceso, pla.estado as estadoActual ,pla.created_at as Fecha_creacionOP
+                         
+                            from planeacion as pla
+                                inner JOIN precostura as pre
+                                 on pre.op_id=pla.id
+                                 where pla.estado='Precostura'                
+            
+
+                ");
+               //dd($planeacionEstado);
+
+
+                 if (array_key_exists('estado',$planeacionEstado)) {
+                     echo "existe";
+                 }else{
+                    return back()->with('info','NO existen datos');
+                 }
+                                   
+               foreach ($planeacionEstado as $key) {
+
+
+                     
+               $dataPre[]=array(
+
+                    'numero-op'=>$key->numero_op,
+                    'Referencia'=>$key->referencia,
+                    'CantidadAproducir'=>$key->cantidad_pares,
+                    'fecha_actual'=>$key->fecha_actual,
+                    'diasIngresoProceso'=>$key->diasPasados,
+                    'Fechaingreso'=>$key->ingresoproceso,
+                    'FechaOpCreacion'=>$key->Fecha_creacionOP,
+                    'DiasEnplacion'=>$key->DiasActuales,
+                    'fechaSalidaPlaneacion'=>$key->salida_op,
+                    'EstadoActual'=>$key->estadoActual
+                    
+
+                );
+
+              // dd($dataPre);
+
+               
+
+               }
+
+
+                $sheet->fromArray($dataPre);
+ 
+            });
+        })->export('xls'); 
+
+        }
+
+        if($request->input('estado')=='salidaPre'){
+           Excel::create('Laravel Excel', function($excel) {
+ 
+            $excel->sheet('Productos', function($sheet) {
+                  
+
+               $planeacionEstado= DB::select(" 
+                     SELECT  DATEDIFF(now(),pre.fecha_ingreso)as diasPasados,DATEDIFF(now(),pla.created_at) as DiasActuales,
+                         pla.numero_op,pla.referencia,pla.cantidad_pares,now() as fecha_actual,pla.salida_prealistamiento as salida_op,
+                         pre.fecha_ingreso as ingresoproceso, pla.estado as estadoActual ,pla.created_at as Fecha_creacionOP
+                         
                             from planeacion as pla
                                 inner JOIN prealistamientos as pre
-                                 on pre.id=pla.id
+                                 on pre.op=pla.id
                                  where pla.estado='salidaPre'                
             
 
                 ");
-                                   
+
+
+                 if (array_key_exists('estado',$planeacionEstado)) {
+                     echo "existe";
+                 }else{
+                    return back()->with('info','No existen datos');
+                 }
+
+
+               
+
+              
+
+
                foreach ($planeacionEstado as $key) {
+
+
                    
                  
                $data[]=array(
 
                     'numero-op'=>$key->numero_op,
-                    'DiasTrascuridoEnviado'=>$key->diasPasados,
+                    'Referencia'=>$key->referencia,
+                    'CantidadAproducir'=>$key->cantidad_pares,
+                    'fecha_actual'=>$key->fecha_actual,
+                    'diasIngresoProceso'=>$key->diasPasados,
                     'Fechaingreso'=>$key->ingresoproceso,
-                    'DiasActualesEnProceso'=>$key->DiasActuales,
-                    'fechaSalidaPlaneacion'=>$key->salida_op
+                    'FechaOpCreacion'=>$key->Fecha_creacionOP,
+                    'DiasEnplacion'=>$key->DiasActuales,
+                    'fechaSalidaPlaneacion'=>$key->salida_op,
+                    'EstadoActual'=>$key->estadoActual
                     
 
                 );
 
+
                }
+
+               //dd($data);
+
+               
+
+
+             
 
 
                 $sheet->fromArray($data);
@@ -284,8 +396,28 @@ class PlaneacionController extends Controller
             });
         })->export('xls'); 
 
-        }else{
-            return "malo";
+
+
+
+        }
+
+        ////
+
+        if ($request->input('estado')=='General') {
+             Excel::create('Laravel Excel', function($excel) {
+ 
+            $excel->sheet('Productos', function($sheet) {
+                  
+                  $data=Planeacion::all();  
+
+
+
+                $sheet->fromArray($data);
+ 
+            });
+        })->export('xls'); 
+
+
         }
 
 

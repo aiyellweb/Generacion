@@ -25,7 +25,14 @@
  
 </head>
 @section ('contenido')
+  @if(session()->has('info'))
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<strong>{{session('info')}}</strong> 
+		</div>
+    @endif
 <div class="container">
+
     <div class="content">
  
         <div class="panel panel-default">
@@ -54,9 +61,9 @@
                         </div>
 
 						<div class="form-group">
-						  <label>Estado
+						  <label>Filtro</label>
                          <select name="estado"  class="form-control">
-
+				       <option value="General">General</option>
                        <option value="salidaPre">Prealistamiento</option>
                        <option value="Precostura">Precostura</option>
 

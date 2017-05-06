@@ -57,6 +57,7 @@
               <th>Referencia</th>
               <th>Tallas</th>
               <th>Total A producir</th>
+              <th>Estado Actual</th>
               <th>Procesos</th>
               <th>Guardar</th>
             </thead>
@@ -67,6 +68,7 @@
                     <td>{{$key->referencia}}</td>
                     <td>{{$key->tallas}}</td>
                     <td>{{$key->cantidad_pares}}</td>
+                    <td>{{$key->estado}}</td>
                     <td>
                      <div class="container-fluid">    
                         <label class="custom-control custom-checkbox">

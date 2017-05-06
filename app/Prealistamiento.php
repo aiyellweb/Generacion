@@ -13,7 +13,7 @@ class Prealistamiento extends Model
 	protected $primaryKey='id';
     public $timestamps=false;
 
-	protected $fillable=['op','cantidad','fecha_ingreso','fecha_salida','estado'];
+	protected $fillable=['op','cantidad','fecha_ingreso','fecha_salida','fecha_modificacion','estado'];
 
 	public function Planeacion()
 	
