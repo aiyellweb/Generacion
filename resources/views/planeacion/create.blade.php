@@ -51,7 +51,7 @@
 
 
     <div class="panel-body">
-        <table class="table table-bordered responsive" id='myTable'>
+        <table class="table table-bordered responsive" id='eps_table'>
             <thead>
               <th>#O.P</th>
               <th>Referencia</th>

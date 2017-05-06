@@ -7,20 +7,26 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}">
-    <link rel="apple-touch-icon" href="{{asset('img/apple-touch-icon.png')}}">
-    <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+       <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+ <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
+     <!-- Font Awesome -->
+ <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
+ <!-- Theme style -->
+ <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}">
+   <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}">
+   <link rel="stylesheet" href="{{asset('css/flexboxgrid.min.css')}}">
+
+ <link rel="apple-touch-icon" href="{{asset('img/apple-touch-icon.png')}}">
+ <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
+
+<!--
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">-->
+<link rel="stylesheet" href="{{asset('css/bootstrapDatable.min.css')}}">
+<link rel="stylesheet"  href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+
 
     
-<link rel="stylesheet"  href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
@@ -206,24 +212,15 @@
         <strong>Copyright &copy; 2017-2020 <a href="gmail.com">Andres Angel</a>.</strong> All rights reserved.
       </footer>
 
-
- <script src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-
-    <!--
-
-
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.js"></script>-->
-    
-
- 
+    <script src="{{asset('js/jqueryDatable.min.js')}}"></script>
     <!--
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.js"></script>-->
-    
+    <script type="text/javascript" charset="utf8" src="{{asset('js/jquery.dataTables.js')}}"></script>
 
     <script type="text/javascript">
 
       $(document).ready(function(){
-        $('#myTable').DataTable({
+        $('#eps_table').DataTable({
           dom: 'Bfrtip',
        buttons: [
            'copy', 'csv', 'excel', 'pdf', 'print'
@@ -266,20 +263,14 @@
 
     </script>
 
+        <!-- Bootstrap 3.3.5 -->
 
 
-
-      
-    <!-- jQuery 2.1.4 -->
-     
-    @stack('scripts')
-    <!-- Bootstrap 3.3.5 -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{asset('js/app.min.js')}}"></script>
+        <script src="{{asset('js/Chart.js')}}"></script>
+        <script src="{{asset('js/bootstrap.min.js')}}"></script>
+         <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
+        <!-- AdminLTE App -->
+        <script src="{{asset('js/app.min.js')}}"></script>
     
   </body>
 </html>
